@@ -3,19 +3,18 @@ import { useState } from "react";
 import tempMovieData from "../constant/tempMovieData.js";
 import tempWatchedData from "../constant/tempWatchedData.js";
 
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+const average = (arr) => arr.reduce((acc, cur) => acc + cur / arr.length, 0);
 
 const MainComponent = () => {
   return (
     <main className="main">
-      <ListBox />
-      <MovieWatchedBox />
+      <MovieListBox />
+      <WatchedMovieBox />
     </main>
   );
 };
 
-function ListBox() {
+function MovieListBox() {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -31,7 +30,7 @@ function ListBox() {
 }
 
 function MovieList() {
-  const [movies, SetMovies] = useState(tempMovieData);
+  const [movies] = useState(tempMovieData);
 
   return (
     <ul className="list">
@@ -57,12 +56,9 @@ function Movie({ movie }) {
   );
 }
 
-function MovieWatchedBox() {
+function WatchedMovieBox() {
   const [isOpen2, setIsOpen2] = useState(true);
   const [watched] = useState(tempWatchedData);
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
 
   return (
     <div className="box">
@@ -74,65 +70,73 @@ function MovieWatchedBox() {
       </button>
       {isOpen2 && (
         <>
-          <MovieSummary />
-          <ul className="list">
-            {watched.map((movie) => (
-              <MovieWatchedList movie={movie} key={movie.imdbID} />
-            ))}
-          </ul>
+          <WatchedMovieSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
         </>
       )}
     </div>
   );
-
-  function MovieSummary() {
-    return (
-      <div className="summary">
-        <h2>Movies you watched</h2>
-        <div>
-          <p>
-            <span>#️⃣</span>
-            <span>{watched.length} movies</span>
-          </p>
-          <p>
-            <span>⭐️</span>
-            <span>{avgImdbRating}</span>
-          </p>
-          <p>
-            <span>🌟</span>
-            <span>{avgUserRating}</span>
-          </p>
-          <p>
-            <span>⏳</span>
-            <span>{avgRuntime} min</span>
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  function MovieWatchedList({ movie }) {
-    return (
-      <li>
-        <img src={movie.Poster} alt={`${movie.Title} poster`} />
-        <h3>{movie.Title}</h3>
-        <div>
-          <p>
-            <span>⭐️</span>
-            <span>{movie.imdbRating}</span>
-          </p>
-          <p>
-            <span>🌟</span>
-            <span>{movie.userRating}</span>
-          </p>
-          <p>
-            <span>⏳</span>
-            <span>{movie.runtime} min</span>
-          </p>
-        </div>
-      </li>
-    );
-  }
 }
 
+function WatchedMovieSummary({ watched }) {
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  return (
+    <div className="summary">
+      <h2>Movies you watched</h2>
+      <div>
+        <p>
+          <span>#️⃣</span>
+          <span>{watched.length} movies</span>
+        </p>
+        <p>
+          <span>⭐️</span>
+          <span>{avgImdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{avgUserRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{avgRuntime} min</span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function WatchedMovieList({ watched }) {
+  return (
+    <ul className="list">
+      {watched.map((movie) => (
+        <WatchedMovie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+}
+
+function WatchedMovie({ movie }) {
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+      </div>
+    </li>
+  );
+}
 export default MainComponent;
