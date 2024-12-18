@@ -5,11 +5,7 @@ import { useState } from "react";
 import tempMovieData from "./constant/tempMovieData.js";
 import tempWatchedData from "./constant/tempWatchedData.js";
 import { Search, Logo, NumResult } from "./components/NavBar";
-import {
-  ListBox,
-  WatchedMovieBox,
-  MovieList,
-} from "./components/MainComponent";
+import { ListBox, MovieList } from "./components/MainComponent";
 import {
   WatchedMovieList,
   WatchedMovieSummary,
