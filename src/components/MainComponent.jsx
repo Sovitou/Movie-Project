@@ -1,37 +1,25 @@
 import "../style/App.css";
 import { useState } from "react";
-import tempMovieData from "../constant/tempMovieData.js";
-import tempWatchedData from "../constant/tempWatchedData.js";
 
 const average = (arr) => arr.reduce((acc, cur) => acc + cur / arr.length, 0);
 
-const MainComponent = () => {
-  return (
-    <main className="main">
-      <MovieListBox />
-      <WatchedMovieBox />
-    </main>
-  );
+const MainComponent = ({ children }) => {
+  return <main className="main">{children}</main>;
 };
 
-function MovieListBox() {
-  const [isOpen1, setIsOpen1] = useState(true);
+export function ListBox({ children }) {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen1((open) => !open)}
-      >
-        {isOpen1 ? "–" : "+"}
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList />}
+      {isOpen && children}
     </div>
   );
 }
 
-function MovieList() {
-  const [movies] = useState(tempMovieData);
-
+export function MovieList({ movies }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
@@ -41,14 +29,14 @@ function MovieList() {
   );
 }
 
-function Movie({ movie }) {
+export function Movie({ movie }) {
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
         <p>
-          <span>🗓</span>
+          <span>🎞️</span>
           <span>{movie.Year}</span>
         </p>
       </div>
@@ -56,29 +44,28 @@ function Movie({ movie }) {
   );
 }
 
-function WatchedMovieBox() {
-  const [isOpen2, setIsOpen2] = useState(true);
-  const [watched] = useState(tempWatchedData);
+// export function WatchedMovieBox() {
+//   const [isOpen2, setIsOpen2] = useState(true);
+//
 
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen2((open) => !open)}
-      >
-        {isOpen2 ? "–" : "+"}
-      </button>
-      {isOpen2 && (
-        <>
-          <WatchedMovieSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
-        </>
-      )}
-    </div>
-  );
-}
+//   return (
+//     <div className="box">
+//       <button
+//         className="btn-toggle"
+//         onClick={() => setIsOpen2((open) => !open)}
+//       >
+//         {isOpen2 ? "–" : "+"}
+//       </button>
+//       {isOpen2 && (
+//         <>
+//
+//         </>
+//       )}
+//     </div>
+//   );
+// }
 
-function WatchedMovieSummary({ watched }) {
+export function WatchedMovieSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
@@ -107,7 +94,7 @@ function WatchedMovieSummary({ watched }) {
   );
 }
 
-function WatchedMovieList({ watched }) {
+export function WatchedMovieList({ watched }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
@@ -117,7 +104,7 @@ function WatchedMovieList({ watched }) {
   );
 }
 
-function WatchedMovie({ movie }) {
+export function WatchedMovie({ movie }) {
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
