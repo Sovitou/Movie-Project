@@ -44,27 +44,6 @@ export function Movie({ movie }) {
   );
 }
 
-// export function WatchedMovieBox() {
-//   const [isOpen2, setIsOpen2] = useState(true);
-//
-
-//   return (
-//     <div className="box">
-//       <button
-//         className="btn-toggle"
-//         onClick={() => setIsOpen2((open) => !open)}
-//       >
-//         {isOpen2 ? "–" : "+"}
-//       </button>
-//       {isOpen2 && (
-//         <>
-//
-//         </>
-//       )}
-//     </div>
-//   );
-// }
-
 export function WatchedMovieSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -126,4 +105,5 @@ export function WatchedMovie({ movie }) {
     </li>
   );
 }
+
 export default MainComponent;
