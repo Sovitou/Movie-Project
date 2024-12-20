@@ -1,12 +1,10 @@
 import "../style/App.css";
-import { useState } from "react";
 
 const NavBar = ({ children }) => {
   return <nav className="nav-bar">{children}</nav>;
 };
 
-export function Search() {
-  const [query, setQuery] = useState("");
+export function Search({ query, setQuery }) {
   return (
     <input
       className="search"

@@ -1,6 +1,6 @@
 import "../style/App.css";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import StarRating from "./StarRating";
 const average = (arr) => arr.reduce((acc, cur) => acc + cur / arr.length, 0);
 
 const MainComponent = ({ children }) => {
@@ -19,19 +19,23 @@ export function ListBox({ children }) {
   );
 }
 
-export function MovieList({ movies }) {
+export function MovieList({ movies, onSelectedMovie }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie
+          movie={movie}
+          key={movie.imdbID}
+          onSelectedMovie={onSelectedMovie}
+        />
       ))}
     </ul>
   );
 }
 
-export function Movie({ movie }) {
+export function Movie({ movie, onSelectedMovie }) {
   return (
-    <li>
+    <li onClick={() => onSelectedMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -106,4 +110,82 @@ export function WatchedMovie({ movie }) {
   );
 }
 
+export function SelectedMovie({ selectedId, onClosedMovie }) {
+  const APIKEY = "929bf9e8";
+  const [movie, setMovie] = useState({});
+  const [isLoad, setIsLoad] = useState(false);
+
+  const {
+    Title: title,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  useEffect(
+    function () {
+      setIsLoad(true);
+      async function DetailMovieFetch() {
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${APIKEY}&i=${selectedId}`
+        );
+        const data = await res.json();
+        setMovie(data);
+        setIsLoad(false);
+      }
+      DetailMovieFetch();
+    },
+    [selectedId]
+  );
+  return isLoad ? (
+    <Loading />
+  ) : (
+    <div className="details">
+      <header>
+        <button className="btn-back" onClick={onClosedMovie}>
+          {"<"}
+        </button>
+        <img src={poster} alt={`Poster of ${title}'s movie `} />
+        <div className="details-overview">
+          <h2>{title}</h2>
+          <p>
+            <span>📅</span>
+            {released} <span>⌛</span> {runtime}
+          </p>
+          <p>{genre}</p>
+          <p>
+            {" "}
+            <span>⭐️</span>
+            {imdbRating} {"  imdbRating"}
+          </p>
+        </div>
+      </header>
+      <section>
+        <div className="rating">
+          <StarRating maxRating={10} />
+        </div>
+        <p>
+          <em>{plot}</em>
+        </p>
+        <p>
+          {"Actor: "}
+          {actors}
+        </p>
+        <p>
+          {"Director: "}
+          {director}
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function Loading() {
+  return <p className="loader">Loading...</p>;
+}
 export default MainComponent;
