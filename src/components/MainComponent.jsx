@@ -50,7 +50,6 @@ export function Movie({ movie, onSelectedMovie }) {
 
 export function WatchedMovieSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
   return (
     <div className="summary">
@@ -62,55 +61,61 @@ export function WatchedMovieSummary({ watched }) {
         </p>
         <p>
           <span>⭐️</span>
-          <span>{avgImdbRating}</span>
-        </p>
-        <p>
-          <span>🌟</span>
-          <span>{avgUserRating}</span>
+          <span>{avgImdbRating.toFixed(2)}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{avgRuntime.toFixed(2)} min</span>
         </p>
       </div>
     </div>
   );
 }
 
-export function WatchedMovieList({ watched }) {
+export function WatchedMovieList({ watched, onDelectWatchedMovie }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
-        <WatchedMovie movie={movie} key={movie.imdbID} />
+        <WatchedMovie
+          movie={movie}
+          key={movie.imdbID}
+          onDelectWatchedMovie={onDelectWatchedMovie}
+        />
       ))}
     </ul>
   );
 }
 
-export function WatchedMovie({ movie }) {
+export function WatchedMovie({ movie, onDelectWatchedMovie }) {
   return (
     <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>
           <span>{movie.imdbRating}</span>
         </p>
         <p>
-          <span>🌟</span>
-          <span>{movie.userRating}</span>
-        </p>
-        <p>
           <span>⏳</span>
           <span>{movie.runtime} min</span>
         </p>
+        <button
+          className="btn-delete"
+          onClick={() => onDelectWatchedMovie(movie.imdbID)}
+        >
+          X
+        </button>
       </div>
     </li>
   );
 }
 
-export function SelectedMovie({ selectedId, onClosedMovie }) {
+export function SelectedMovie({
+  selectedId,
+  onClosedMovie,
+  onAddWatchedMovie,
+}) {
   const APIKEY = "929bf9e8";
   const [movie, setMovie] = useState({});
   const [isLoad, setIsLoad] = useState(false);
@@ -126,6 +131,18 @@ export function SelectedMovie({ selectedId, onClosedMovie }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+  function handleAdd() {
+    const newMovie = {
+      imdbID: selectedId,
+      title,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating: 0,
+    };
+    onAddWatchedMovie(newMovie);
+  }
 
   useEffect(
     function () {
@@ -165,10 +182,12 @@ export function SelectedMovie({ selectedId, onClosedMovie }) {
           </p>
         </div>
       </header>
+
       <section>
-        <div className="rating">
-          <StarRating maxRating={10} />
-        </div>
+        <button className="btn-add" onClick={handleAdd}>
+          + Add movie to watched list
+        </button>
+
         <p>
           <em>{plot}</em>
         </p>
