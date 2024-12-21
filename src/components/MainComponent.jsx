@@ -119,7 +119,7 @@ export function SelectedMovie({
   const [movie, setMovie] = useState({});
   const [isLoad, setIsLoad] = useState(false);
   const apiKey = import.meta.env.VITE_API_KEY;
-
+  const [query, setQuery] = useState("");
   const {
     Title: title,
     Poster: poster,
