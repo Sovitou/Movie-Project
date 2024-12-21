@@ -10,15 +10,19 @@ import {
   SelectedMovie,
 } from "./components/MainComponent";
 
-const APIKEY = "929bf9e8";
-
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoad, setIsLoad] = useState(false);
   const [isError, setIsError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedID, setSelectedID] = useState(null);
+  const apiKey = import.meta.env.VITE_API_KEY;
+
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const storeMovie = localStorage.getItem("watched");
+    return storeMovie ? JSON.parse(storeMovie) : [];
+  });
 
   function handleSelectedMovie(id) {
     setSelectedID(id);
@@ -36,6 +40,13 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
+  function Loading() {
+    return <p className="loader">Loading...</p>;
+  }
+  function ErrorMessage({ message }) {
+    return <p className="error">❌{message}</p>;
+  }
+
   useEffect(
     function () {
       async function MovieFetch() {
@@ -44,7 +55,7 @@ export default function App() {
           setIsError("");
 
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
           );
 
           if (!res.ok)
@@ -67,6 +78,13 @@ export default function App() {
       MovieFetch();
     },
     [query]
+  );
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
   );
 
   return (
@@ -104,11 +122,4 @@ export default function App() {
       </MainComponent>
     </>
   );
-}
-
-function Loading() {
-  return <p className="loader">Loading...</p>;
-}
-function ErrorMessage({ message }) {
-  return <p className="error">❌{message}</p>;
 }

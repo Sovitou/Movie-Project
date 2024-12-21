@@ -1,6 +1,6 @@
 import "../style/App.css";
 import { useState, useEffect } from "react";
-import StarRating from "./StarRating";
+
 const average = (arr) => arr.reduce((acc, cur) => acc + cur / arr.length, 0);
 
 const MainComponent = ({ children }) => {
@@ -116,9 +116,9 @@ export function SelectedMovie({
   onClosedMovie,
   onAddWatchedMovie,
 }) {
-  const APIKEY = "929bf9e8";
   const [movie, setMovie] = useState({});
   const [isLoad, setIsLoad] = useState(false);
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const {
     Title: title,
@@ -149,7 +149,7 @@ export function SelectedMovie({
       setIsLoad(true);
       async function DetailMovieFetch() {
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${APIKEY}&i=${selectedId}`
+          `http://www.omdbapi.com/?apikey=${apiKey}&i=${selectedId}`
         );
         const data = await res.json();
         setMovie(data);
