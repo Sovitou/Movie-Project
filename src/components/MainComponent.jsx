@@ -119,7 +119,6 @@ export function SelectedMovie({
   const [movie, setMovie] = useState({});
   const [isLoad, setIsLoad] = useState(false);
   const apiKey = import.meta.env.VITE_API_KEY;
-  const [query, setQuery] = useState("");
   const {
     Title: title,
     Poster: poster,
@@ -149,7 +148,7 @@ export function SelectedMovie({
       setIsLoad(true);
       async function DetailMovieFetch() {
         const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
+          `https://www.omdbapi.com/?apikey=${apiKey}&i=${selectedId}`
         );
         const data = await res.json();
         setMovie(data);

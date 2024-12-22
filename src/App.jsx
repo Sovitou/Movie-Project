@@ -18,7 +18,6 @@ export default function App() {
   const [selectedID, setSelectedID] = useState(null);
   const apiKey = import.meta.env.VITE_API_KEY;
 
-  // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(function () {
     const storeMovie = localStorage.getItem("watched");
     return storeMovie ? JSON.parse(storeMovie) : [];
@@ -49,6 +48,13 @@ export default function App() {
 
   useEffect(
     function () {
+      if (query.length < 3) {
+        setMovies([]);
+        setIsError("");
+        setIsLoad(false);
+        return;
+      }
+
       async function MovieFetch() {
         try {
           setIsLoad(true);
@@ -58,23 +64,23 @@ export default function App() {
             `https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
           );
 
-          if (!res.ok)
+          if (!res.ok) {
             throw new Error("Something went wrong with fetching movies");
+          }
 
           const data = await res.json();
-          if (data.Response === "False") throw new Error("Movie not found !");
-          setMovies(data.Search);
-          setIsLoad(false);
+          if (data.Response === "False") {
+            throw new Error(data.Error || "Movie not found!");
+          }
+
+          setMovies(data.Search || []);
         } catch (err) {
           setIsError(err.message);
         } finally {
           setIsLoad(false);
         }
-
-        if (query.length < 3) {
-          setIsError("");
-        }
       }
+
       MovieFetch();
     },
     [query]

@@ -24,8 +24,12 @@ export function NumResult({ movies }) {
 }
 
 export function Logo() {
+  const handleLogoClick = () => {
+    window.location.reload();
+  };
+
   return (
-    <div className="logo">
+    <div className="logo" onClick={handleLogoClick}>
       <span role="img">🍿</span>
       <h1>Movie</h1>
     </div>
