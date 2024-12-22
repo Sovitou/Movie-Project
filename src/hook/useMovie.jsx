@@ -3,7 +3,7 @@ export function useMovie(query) {
   const [movies, setMovies] = useState([]);
   const [isLoad, setIsLoad] = useState(false);
   const [isError, setIsError] = useState("");
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const apiKey = "929bf9e8";
   useEffect(
     function () {
       if (query.length < 3) {
