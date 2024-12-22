@@ -1,11 +1,25 @@
 import "../style/App.css";
 import popcorn from "../asset/popcornlogo.svg";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const NavBar = ({ children }) => {
   return <nav className="nav-bar">{children}</nav>;
 };
 
 export function Search({ query, setQuery }) {
+  const inputEl = useRef(null);
+  useEffect(function () {
+    function callBack(e) {
+      if (document.activeElement === inputEl.current) return;
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+        setQuery("");
+      }
+    }
+    document.addEventListener("keydown", callBack);
+    return () => document.addEventListener("keydown", callBack);
+  }, []);
   return (
     <input
       className="search"
@@ -13,6 +27,7 @@ export function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
     />
   );
 }
