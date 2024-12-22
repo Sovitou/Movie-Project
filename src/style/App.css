@@ -1,13 +1,15 @@
 :root {
-  --color-primary: #6741d9;
-  --color-primary-light: #7950f2;
-  --color-text: #dee2e6;
-  --color-text-dark: #adb5bd;
-  --color-background-100: #343a40;
-  --color-background-500: #2b3035;
-  --color-background-900: #212529;
-  --color-red: #fa5252;
-  --color-red-dark: #e03131;
+  --color-text: #ffffff;
+  --color-text-dark: #d1d1d1;
+  --color-background-900: #121212;
+  --color-background-500: #1f1f1f;
+  --color-background-100: #2c2c2c;
+  --color-primary: #4caf50;
+  --color-primary-light: #81c784;
+  --color-red: #e53935;
+  --color-red-dark: #b71c1c;
+  --scrollbar-thumb-color: #aaa;
+  --scrollbar-thumb-hover-color: #888;
 }
 
 * {
@@ -23,13 +25,10 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
   color: var(--color-text);
   background-color: var(--color-background-900);
   padding: 2.4rem;
 }
-
-/* ******* */
 
 .nav-bar {
   display: grid;
@@ -56,6 +55,8 @@ body {
   border-radius: 0.9rem;
   overflow-y: scroll;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
 }
 
 .box::-webkit-scrollbar {
@@ -63,22 +64,17 @@ body {
 }
 
 .box::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-color, #aaa);
+  background-color: var(--scrollbar-thumb-color);
   border-radius: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .box::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover-color, #888);
+  background-color: var(--scrollbar-thumb-hover-color);
 }
 
 .box::-webkit-scrollbar-track {
   background-color: transparent;
-}
-
-.box {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb-color, #aaa) transparent;
 }
 
 .loader {
@@ -87,15 +83,15 @@ body {
   font-size: 2rem;
   font-weight: 600;
   margin: 4.8rem;
+  color: var(--color-text);
 }
 
 .error {
   text-align: center;
   font-size: 2rem;
   padding: 4.8rem;
+  color: var(--color-text);
 }
-
-/* ******* */
 
 .logo {
   display: flex;
@@ -105,12 +101,13 @@ body {
 
 .logo span {
   font-size: 3.2rem;
+  color: var(--color-text);
 }
 
 .logo h1 {
   font-size: 2.4rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text);
 }
 
 .search {
@@ -122,8 +119,6 @@ body {
   width: 40rem;
   transition: all 0.3s;
   color: var(--color-text);
-
-  /* background-color: var(--color-background-900); */
   background-color: var(--color-primary-light);
 }
 
@@ -140,6 +135,7 @@ body {
 .num-results {
   justify-self: end;
   font-size: 1.8rem;
+  color: var(--color-text);
 }
 
 .btn-toggle {
@@ -161,7 +157,6 @@ body {
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  /* overflow: scroll; */
 }
 
 .list-watched {
@@ -176,9 +171,9 @@ body {
   column-gap: 2.4rem;
   font-size: 1.6rem;
   align-items: center;
-
   padding: 1.6rem 3.2rem;
   border-bottom: 1px solid var(--color-background-100);
+  color: var(--color-text);
 }
 
 .list.list-movies li {
@@ -214,7 +209,6 @@ body {
 .btn-delete {
   position: absolute;
   right: 2.4rem;
-
   height: 1.8rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -231,13 +225,12 @@ body {
   background-color: var(--color-red-dark);
 }
 
-/* ******* */
-
 .summary {
   padding: 2.2rem 3.2rem 1.8rem 3.2rem;
   border-radius: 0.9rem;
   background-color: var(--color-background-100);
   box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.2);
+  color: var(--color-text);
 }
 
 .summary h2 {
@@ -260,11 +253,10 @@ body {
   gap: 0.8rem;
 }
 
-/* ******* */
-
 .details {
   line-height: 1.4;
   font-size: 1.4rem;
+  color: var(--color-text);
 }
 
 .details header {
@@ -289,6 +281,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  color: var(--color-text);
 }
 
 .details-overview h2 {
@@ -312,6 +305,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
+  color: var(--color-text);
 }
 
 .btn-add {
@@ -338,6 +332,7 @@ body {
   text-align: center;
   padding: 0.4rem;
   margin-top: 2.4rem;
+  color: var(--color-text);
 }
 
 .btn-back {
@@ -348,7 +343,6 @@ body {
   aspect-ratio: 1;
   border-radius: 50%;
   border: none;
-  /* background-color: var(--color-text); */
   background-color: #fff;
   color: var(--color-background-500);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
@@ -361,11 +355,3 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-/*
-SPACING SYSTEM (px)
-2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
-
-FONT SIZE SYSTEM (px)
-10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 /52 / 62 / 74 / 86 / 98
-*/

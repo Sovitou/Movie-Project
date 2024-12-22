@@ -1,4 +1,5 @@
 import "../style/App.css";
+import popcorn from "../asset/popcornlogo.svg";
 
 const NavBar = ({ children }) => {
   return <nav className="nav-bar">{children}</nav>;
@@ -30,8 +31,8 @@ export function Logo() {
 
   return (
     <div className="logo" onClick={handleLogoClick}>
-      <span role="img">🍿</span>
-      <h1>Movie</h1>
+      <img src={popcorn} role="logo" />
+      <h1>Popcorn</h1>
     </div>
   );
 }
