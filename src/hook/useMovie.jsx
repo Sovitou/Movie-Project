@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 export function useMovie(query) {
   const [movies, setMovies] = useState([]);
   const [isLoad, setIsLoad] = useState(false);
   const [isError, setIsError] = useState("");
-  const apiKey = "929bf9e8";
+  const apiKey = import.meta.env.VITE_API_KEY;
   useEffect(
     function () {
       if (query.length < 3) {
