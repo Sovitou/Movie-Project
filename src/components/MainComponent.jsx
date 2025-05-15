@@ -72,21 +72,21 @@ export function WatchedMovieSummary({ watched }) {
   );
 }
 
-export function WatchedMovieList({ watched, onDelectWatchedMovie }) {
+export function WatchedMovieList({ watched, onDeleteWatchedMovie }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie
           movie={movie}
           key={movie.imdbID}
-          onDelectWatchedMovie={onDelectWatchedMovie}
+          onDeleteWatchedMovie={onDeleteWatchedMovie} // Fixed typo
         />
       ))}
     </ul>
   );
 }
 
-export function WatchedMovie({ movie, onDelectWatchedMovie }) {
+export function WatchedMovie({ movie, onDeleteWatchedMovie }) {
   return (
     <li>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -102,7 +102,7 @@ export function WatchedMovie({ movie, onDelectWatchedMovie }) {
         </p>
         <button
           className="btn-delete"
-          onClick={() => onDelectWatchedMovie(movie.imdbID)}
+          onClick={() => onDeleteWatchedMovie(movie.imdbID)}
         >
           X
         </button>

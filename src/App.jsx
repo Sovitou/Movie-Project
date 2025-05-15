@@ -2,12 +2,12 @@ import "./style/App.css";
 import NavBar from "./components/NavBar";
 import MainComponent from "./components/MainComponent";
 import { useEffect, useState } from "react";
-import { Search, Logo, NumResult } from "./components/NavBar";
+import { Logo, NumResult, Search } from "./components/NavBar";
 import { ListBox, MovieList } from "./components/MainComponent";
 import {
+  SelectedMovie,
   WatchedMovieList,
   WatchedMovieSummary,
-  SelectedMovie,
 } from "./components/MainComponent";
 import { useMovie } from "./hook/useMovie";
 
@@ -80,7 +80,7 @@ export default function App() {
               <WatchedMovieSummary watched={watched} />
               <WatchedMovieList
                 watched={watched}
-                onDelectWatchedMovie={handleDeleteWatchedMovie}
+                onDeleteWatchedMovie={handleDeleteWatchedMovie}
               />
             </>
           )}
